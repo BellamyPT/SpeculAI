@@ -140,6 +140,13 @@ class Settings(BaseSettings):
     memory: MemoryConfig = MemoryConfig()
     benchmarks: list[BenchmarkItem] = _DEFAULT_BENCHMARKS
 
+    @property
+    def database_url_async(self) -> str:
+        """Convert sync database URL to async (asyncpg) URL."""
+        return self.database_url.replace(
+            "postgresql://", "postgresql+asyncpg://", 1
+        )
+
     @classmethod
     def from_yaml(
         cls, yaml_path: str | Path = "config/config.yaml", **overrides: Any
