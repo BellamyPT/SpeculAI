@@ -24,17 +24,33 @@ def async_engine(settings):
 
 
 @pytest.fixture
-async def async_session(async_engine):
-    """Create an async session for DB tests. Skip if PostgreSQL is unavailable."""
-    from sqlalchemy import text
-    from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
+async def db_tables(async_engine):
+    """Create all tables before tests, drop them after.
 
-    # Verify connection works; skip if not
+    Uses Base.metadata directly — no Alembic needed in tests.
+    """
+    from sqlalchemy import text
+    from tradeagent.models import Base
+
     try:
         async with async_engine.connect() as conn:
             await conn.execute(text("SELECT 1"))
     except Exception:
         pytest.skip("PostgreSQL not available")
+
+    async with async_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
+    yield
+
+    async with async_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
+
+
+@pytest.fixture
+async def async_session(async_engine, db_tables):
+    """Create an async session for DB tests. Skip if PostgreSQL is unavailable."""
+    from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
     session_factory = async_sessionmaker(
         async_engine,
@@ -45,3 +61,34 @@ async def async_session(async_engine):
     async with session_factory() as session:
         yield session
         await session.rollback()
+
+
+@pytest.fixture
+async def sample_stock(async_session):
+    """Insert and return a sample Stock row for tests."""
+    from tradeagent.models import Stock
+
+    stock = Stock(
+        ticker="AAPL",
+        name="Apple Inc.",
+        exchange="NASDAQ",
+        sector="Technology",
+        industry="Consumer Electronics",
+        country="US",
+        currency="USD",
+        is_active=True,
+    )
+    async_session.add(stock)
+    await async_session.flush()
+    return stock
+
+
+@pytest.fixture
+async def sample_benchmark(async_session):
+    """Insert and return a sample Benchmark row for tests."""
+    from tradeagent.models import Benchmark
+
+    benchmark = Benchmark(symbol="^GSPC", name="S&P 500")
+    async_session.add(benchmark)
+    await async_session.flush()
+    return benchmark
