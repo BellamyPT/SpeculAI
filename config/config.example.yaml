@@ -1,0 +1,78 @@
+# config.yaml - TradeAgent Configuration
+
+portfolio:
+  max_positions: 20                    # Maximum concurrent open positions
+  max_position_pct: 5.0               # Maximum % of portfolio per position
+  min_trade_value: 100.0              # Minimum trade value in base currency
+  base_currency: EUR                  # Base currency for portfolio valuation
+  initial_capital: 50000.0            # Starting capital (for backtesting)
+
+screening:
+  max_candidates: 50                  # Max stocks passed to LLM for analysis
+  min_market_cap: 500000000           # Minimum market cap ($500M)
+  weights:
+    rsi: 0.25
+    macd: 0.20
+    bollinger: 0.15
+    sma_cross: 0.15
+    volume_anomaly: 0.10
+    pe_undervaluation: 0.15
+  thresholds:
+    rsi_oversold: 30
+    rsi_overbought: 70
+    volume_anomaly_multiplier: 1.5     # Volume > N * 20-day avg
+    bollinger_proximity_pct: 5.0       # Within N% of band
+
+technical_analysis:
+  rsi_period: 14
+  macd_fast: 12
+  macd_slow: 26
+  macd_signal: 9
+  bollinger_period: 20
+  bollinger_std: 2
+  sma_short: 50
+  sma_long: 200
+  ema_short: 12
+  ema_long: 26
+  volume_sma_period: 20
+
+pipeline:
+  schedule_hour: 7                    # UTC hour for daily run
+  schedule_minute: 0
+  max_llm_retries: 3
+  llm_timeout_seconds: 120
+  broker_retry_delay_minutes: 30
+  broker_max_retries: 2
+
+llm:
+  provider: claude_cli                # claude_cli | anthropic_api (future)
+  temperature: 0.3
+  system_prompt_path: src/tradeagent/adapters/llm/prompts/system_prompt.md
+  max_output_tokens: 3000
+
+news:
+  provider: perplexity                # perplexity (future: tavily, newsapi)
+  queries_per_run: 8                  # Max Perplexity queries per pipeline run
+  sectors:                            # Sectors to query for macro news
+    - technology
+    - semiconductors
+    - artificial intelligence
+    - energy
+    - healthcare
+    - financials
+    - consumer discretionary
+    - cybersecurity
+
+memory:
+  max_items_per_candidate: 10         # Max memory items per stock candidate
+  exact_ticker_max: 10                # Max past decisions for same ticker
+  sector_max: 5                       # Max sector-similar decisions
+  outcome_lookback_days: 7            # Days before first outcome assessment
+
+benchmarks:
+  - symbol: "^GSPC"
+    name: "S&P 500"
+  - symbol: "IWDA.AS"
+    name: "iShares Core MSCI World"
+  - symbol: "VWCE.DE"
+    name: "Vanguard FTSE All-World"
