@@ -12,8 +12,12 @@ class PositionResponse(BaseModel):
 
     id: int
     stock_id: int
+    ticker: str | None = None
     quantity: Decimal
     avg_price: Decimal
+    current_price: Decimal | None = None
+    unrealized_pnl: Decimal | None = None
+    weight_pct: Decimal | None = None
     currency: str
     opened_at: datetime
     closed_at: datetime | None
@@ -57,5 +61,12 @@ class PortfolioSummaryResponse(BaseModel):
     positions: list[PositionResponse]
 
 
+class BenchmarkSeries(BaseModel):
+    symbol: str
+    name: str
+    data: list[dict]
+
+
 class PortfolioPerformanceResponse(BaseModel):
     snapshots: list[PortfolioSnapshotResponse]
+    benchmarks: list[BenchmarkSeries] = []

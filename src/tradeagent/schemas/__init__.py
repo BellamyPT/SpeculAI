@@ -6,11 +6,17 @@ from tradeagent.schemas.decision import (
     DecisionReportResponse,
 )
 from tradeagent.schemas.portfolio import (
+    BenchmarkSeries,
     PortfolioPerformanceResponse,
     PortfolioSnapshotResponse,
     PortfolioSummaryResponse,
     PositionResponse,
     PositionSnapshotResponse,
+)
+from tradeagent.schemas.pipeline import (
+    PipelineRunInfo,
+    PipelineStatusResponse,
+    PipelineTriggerResponse,
 )
 from tradeagent.schemas.stock import StockFundamentalResponse, StockPriceResponse, StockResponse
 from tradeagent.schemas.trade import TradeResponse
@@ -18,12 +24,16 @@ from tradeagent.schemas.trade import TradeResponse
 __all__ = [
     "BenchmarkPriceResponse",
     "BenchmarkResponse",
+    "BenchmarkSeries",
     "DecisionContextItemResponse",
     "DecisionReportDetailResponse",
     "DecisionReportResponse",
     "ErrorResponse",
     "PaginatedResponse",
     "PaginationMeta",
+    "PipelineRunInfo",
+    "PipelineStatusResponse",
+    "PipelineTriggerResponse",
     "PortfolioPerformanceResponse",
     "PortfolioSnapshotResponse",
     "PortfolioSummaryResponse",

@@ -12,6 +12,7 @@ class TradeResponse(BaseModel):
 
     id: int
     stock_id: int
+    ticker: str | None = None
     decision_report_id: int | None
     side: str
     quantity: Decimal
