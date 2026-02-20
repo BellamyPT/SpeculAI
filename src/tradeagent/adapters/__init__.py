@@ -13,6 +13,8 @@ from tradeagent.adapters.base import (
     PriceBar,
     ValidationResult,
 )
+from tradeagent.adapters.llm.claude_cli import ClaudeCLIAdapter
+from tradeagent.adapters.news.perplexity_adapter import PerplexityNewsAdapter
 
 __all__ = [
     # DTOs
@@ -30,4 +32,7 @@ __all__ = [
     "LLMAdapter",
     "NewsAdapter",
     "BrokerAdapter",
+    # Concrete adapters
+    "ClaudeCLIAdapter",
+    "PerplexityNewsAdapter",
 ]
