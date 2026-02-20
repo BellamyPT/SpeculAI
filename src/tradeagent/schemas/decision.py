@@ -25,6 +25,7 @@ class DecisionReportResponse(BaseModel):
 
     id: int
     stock_id: int
+    ticker: str | None = None
     pipeline_run_id: UUID
     action: str
     confidence: Decimal
