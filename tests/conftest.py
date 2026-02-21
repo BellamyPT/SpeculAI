@@ -2,6 +2,21 @@ import pytest
 
 from tradeagent.config import Settings
 
+# Re-export factories for easy access in all tests
+from tests.factories import (  # noqa: F401
+    BenchmarkFactory,
+    BenchmarkPriceFactory,
+    DecisionContextItemFactory,
+    DecisionReportFactory,
+    PortfolioSnapshotFactory,
+    PositionFactory,
+    PositionSnapshotFactory,
+    StockFactory,
+    StockFundamentalFactory,
+    StockPriceFactory,
+    TradeFactory,
+)
+
 
 @pytest.fixture
 def settings() -> Settings:

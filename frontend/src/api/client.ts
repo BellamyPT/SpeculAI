@@ -19,6 +19,8 @@ import type {
   PipelineStatusResponse,
   TradesQueryParams,
   DecisionsQueryParams,
+  BacktestTriggerRequest,
+  BacktestProgressResponse,
 } from '@/types'
 
 const BASE = '/api'
@@ -145,4 +147,31 @@ export async function triggerPipeline(): Promise<{ message: string; pipeline_run
   return apiFetch<{ message: string; pipeline_run_id: string }>(`${BASE}/pipeline/run`, {
     method: 'POST',
   })
+}
+
+// ------------------------------------------------------------
+// Backtest
+// ------------------------------------------------------------
+
+/**
+ * POST /api/backtest/run
+ * Triggers a backtest run. Returns 202 Accepted with run ID.
+ */
+export async function triggerBacktest(
+  params: BacktestTriggerRequest
+): Promise<BacktestProgressResponse> {
+  return apiFetch<BacktestProgressResponse>(`${BASE}/backtest/run`, {
+    method: 'POST',
+    body: JSON.stringify(params),
+  })
+}
+
+/**
+ * GET /api/backtest/{runId}
+ * Returns backtest progress or final results.
+ */
+export async function fetchBacktestProgress(
+  runId: string
+): Promise<BacktestProgressResponse> {
+  return apiFetch<BacktestProgressResponse>(`${BASE}/backtest/${runId}`)
 }

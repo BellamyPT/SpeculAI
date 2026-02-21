@@ -23,6 +23,7 @@ const NAV_ITEMS: NavItem[] = [
   { to: '/', label: 'Dashboard', icon: '◈' },
   { to: '/trades', label: 'Trades', icon: '⇄' },
   { to: '/decisions', label: 'Decisions', icon: '◎' },
+  { to: '/backtest', label: 'Backtest', icon: '⟳' },
 ]
 
 function PipelineStatusBadge({ status }: { status: string | null }) {
