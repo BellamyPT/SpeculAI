@@ -14,6 +14,7 @@ from tradeagent.config import Settings
 from tradeagent.core.exceptions import TradeAgentError
 from tradeagent.core.logging import get_logger, setup_logging
 from tradeagent.database import get_async_engine
+from tradeagent.api.routes.backtest import router as backtest_router
 from tradeagent.api.routes.decisions import router as decisions_router
 from tradeagent.api.routes.health import router as health_router
 from tradeagent.api.routes.pipeline import router as pipeline_router
@@ -42,6 +43,10 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     # Pipeline state
     app.state.pipeline_status = None
     app.state.last_pipeline_run = None
+
+    # Backtest state
+    app.state.backtest_status = None
+    app.state.backtest_result = None
 
     # Adapters
     from tradeagent.adapters.market_data.yfinance_adapter import YFinanceAdapter
@@ -182,6 +187,7 @@ def create_app() -> FastAPI:
     app.include_router(trades_router, prefix="/api")
     app.include_router(decisions_router, prefix="/api")
     app.include_router(pipeline_router, prefix="/api")
+    app.include_router(backtest_router, prefix="/api")
 
     return app
 
