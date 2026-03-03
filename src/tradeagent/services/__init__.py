@@ -1,4 +1,3 @@
-from tradeagent.services.backtest import BacktestService
 from tradeagent.services.memory import MemoryService
 from tradeagent.services.pipeline import PipelineService
 from tradeagent.services.portfolio_snapshot import PortfolioSnapshotService
@@ -8,7 +7,6 @@ from tradeagent.services.screening import ScreeningService
 from tradeagent.services.technical_analysis import TechnicalAnalysisService
 
 __all__ = [
-    "BacktestService",
     "TechnicalAnalysisService",
     "ScreeningService",
     "RiskManager",

@@ -36,8 +36,6 @@ export interface PortfolioSnapshotResponse {
   daily_pnl: string
   cumulative_pnl_pct: string
   num_positions: number
-  is_backtest: boolean
-  backtest_run_id: string | null
 }
 
 export interface BenchmarkDataPoint {
@@ -69,7 +67,6 @@ export interface TradeResponse {
   broker_order_id: string | null
   status: string
   executed_at: string | null
-  is_backtest: boolean
   created_at: string
 }
 
@@ -81,7 +78,6 @@ export interface DecisionReportResponse {
   action: string
   confidence: string
   reasoning: string
-  is_backtest: boolean
   created_at: string
 }
 
@@ -155,44 +151,6 @@ export interface DecisionsQueryParams {
   end_date?: string
   limit?: number
   offset?: number
-}
-
-// ============================================================
-// Backtest Types
-// ============================================================
-
-export interface BacktestTriggerRequest {
-  start_date: string
-  end_date: string
-  initial_capital: number
-}
-
-export interface BacktestMetricsResponse {
-  total_return_pct: number
-  annualized_return_pct: number
-  max_drawdown_pct: number
-  sharpe_ratio: number
-  win_rate_pct: number
-  total_trades: number
-  avg_holding_days: number
-  benchmark_returns: Record<string, number>
-}
-
-export interface EquityCurvePoint {
-  date: string
-  value: number
-}
-
-export interface BacktestProgressResponse {
-  backtest_run_id: string
-  status: string
-  current_day: number
-  total_days: number
-  started_at: string
-  completed_at: string | null
-  metrics: BacktestMetricsResponse | null
-  equity_curve: EquityCurvePoint[] | null
-  errors: string[]
 }
 
 // ============================================================

@@ -164,7 +164,7 @@ class TestTradeModel:
         expected = {
             "id", "stock_id", "decision_report_id", "side", "quantity",
             "price", "total_value", "currency", "broker_order_id",
-            "status", "executed_at", "is_backtest", "backtest_run_id",
+            "status", "executed_at",
             "created_at",
         }
         assert expected.issubset(cols)
@@ -182,7 +182,7 @@ class TestDecisionReportModel:
             "reasoning", "technical_summary", "news_summary",
             "memory_references", "portfolio_state", "outcome_pnl",
             "outcome_benchmark_delta", "outcome_assessed_at",
-            "is_backtest", "backtest_run_id", "created_at",
+            "created_at",
         }
         assert expected.issubset(cols)
 
@@ -211,7 +211,6 @@ class TestPortfolioSnapshotModel:
         expected = {
             "id", "date", "total_value", "cash", "invested",
             "daily_pnl", "cumulative_pnl_pct", "num_positions",
-            "is_backtest", "backtest_run_id",
         }
         assert expected.issubset(cols)
 
@@ -386,8 +385,6 @@ class TestSchemaValidation:
             "broker_order_id": None,
             "status": "FILLED",
             "executed_at": None,
-            "is_backtest": False,
-            "backtest_run_id": None,
             "created_at": datetime.now(),
         }
         resp = TradeResponse(**data)
@@ -409,8 +406,6 @@ class TestSchemaValidation:
             "outcome_pnl": None,
             "outcome_benchmark_delta": None,
             "outcome_assessed_at": None,
-            "is_backtest": False,
-            "backtest_run_id": None,
             "created_at": datetime.now(),
             "context_items": [
                 {

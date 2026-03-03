@@ -71,7 +71,7 @@ class LLMConfig(BaseModel):
 
 class NewsConfig(BaseModel):
     provider: str = "perplexity"
-    queries_per_run: int = 8
+    queries_per_run: int = 5
     sectors: list[str] = [
         "technology",
         "semiconductors",

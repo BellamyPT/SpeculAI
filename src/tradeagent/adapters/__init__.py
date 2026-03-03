@@ -14,7 +14,6 @@ from tradeagent.adapters.base import (
     ValidationResult,
 )
 from tradeagent.adapters.broker.mock_broker import MockBrokerAdapter
-from tradeagent.adapters.broker.simulated import SimulatedBroker
 from tradeagent.adapters.broker.trading212 import Trading212Adapter
 from tradeagent.adapters.llm.claude_cli import ClaudeCLIAdapter
 from tradeagent.adapters.llm.mock_llm import MockLLMAdapter
@@ -43,7 +42,6 @@ __all__ = [
     "PerplexityNewsAdapter",
     "Trading212Adapter",
     "MockBrokerAdapter",
-    "SimulatedBroker",
     "MockLLMAdapter",
     "MockMarketDataAdapter",
     "MockNewsAdapter",

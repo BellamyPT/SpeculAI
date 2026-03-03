@@ -22,7 +22,6 @@ async def list_trades(
     side: str | None = Query(None),
     start_date: date | None = Query(None),
     end_date: date | None = Query(None),
-    include_backtest: bool = Query(False),
     limit: int = Query(50, ge=1, le=200),
     offset: int = Query(0, ge=0),
 ) -> PaginatedResponse[TradeResponse]:
@@ -33,7 +32,6 @@ async def list_trades(
         side=side,
         start_date=start_date,
         end_date=end_date,
-        include_backtest=include_backtest,
         limit=limit,
         offset=offset,
     )

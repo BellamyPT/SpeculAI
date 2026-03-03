@@ -316,9 +316,12 @@ class PipelineService:
     ) -> list[NewsItem]:
         """Step 4: Fetch news. Non-critical — continues on failure."""
         try:
+            limit = self._settings.news.queries_per_run
+            sector_limit = limit // 2
+            ticker_limit = limit - sector_limit
             topics = list(set(
-                self._settings.news.sectors[:5]
-                + [c.ticker for c in candidates[:5]]
+                self._settings.news.sectors[:sector_limit]
+                + [c.ticker for c in candidates[:ticker_limit]]
             ))
             return await self._news.query_news(topics)
         except Exception as exc:

@@ -52,7 +52,7 @@ llm:
 
 news:
   provider: perplexity                # perplexity (future: tavily, newsapi)
-  queries_per_run: 8                  # Max Perplexity queries per pipeline run
+  queries_per_run: 5                  # Max Perplexity queries per pipeline run
   sectors:                            # Sectors to query for macro news
     - technology
     - semiconductors

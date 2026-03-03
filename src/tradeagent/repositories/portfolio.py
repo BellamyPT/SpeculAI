@@ -158,8 +158,6 @@ class PortfolioRepository:
         daily_pnl: object,
         cumulative_pnl_pct: object,
         num_positions: int,
-        is_backtest: bool = False,
-        backtest_run_id: object | None = None,
     ) -> PortfolioSnapshot:
         try:
             snapshot = PortfolioSnapshot(
@@ -170,8 +168,6 @@ class PortfolioRepository:
                 daily_pnl=daily_pnl,
                 cumulative_pnl_pct=cumulative_pnl_pct,
                 num_positions=num_positions,
-                is_backtest=is_backtest,
-                backtest_run_id=backtest_run_id,
             )
             session.add(snapshot)
             await session.flush()
@@ -181,12 +177,11 @@ class PortfolioRepository:
 
     @staticmethod
     async def get_latest_snapshot(
-        session: AsyncSession, *, is_backtest: bool = False
+        session: AsyncSession,
     ) -> PortfolioSnapshot | None:
         try:
             result = await session.execute(
                 select(PortfolioSnapshot)
-                .where(PortfolioSnapshot.is_backtest == is_backtest)
                 .order_by(PortfolioSnapshot.date.desc())
                 .limit(1)
             )
@@ -200,14 +195,11 @@ class PortfolioRepository:
         *,
         start_date: date | None = None,
         end_date: date | None = None,
-        is_backtest: bool = False,
         limit: int = 100,
         offset: int = 0,
     ) -> tuple[list[PortfolioSnapshot], int]:
         try:
-            base = select(PortfolioSnapshot).where(
-                PortfolioSnapshot.is_backtest == is_backtest
-            )
+            base = select(PortfolioSnapshot)
             if start_date is not None:
                 base = base.where(PortfolioSnapshot.date >= start_date)
             if end_date is not None:

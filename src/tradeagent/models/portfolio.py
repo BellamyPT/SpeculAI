@@ -2,11 +2,9 @@ from __future__ import annotations
 
 from datetime import date, datetime
 from decimal import Decimal
-from uuid import UUID
 
 from sqlalchemy import (
     BigInteger,
-    Boolean,
     Date,
     ForeignKey,
     Index,
@@ -46,12 +44,7 @@ class Position(Base):
 class PortfolioSnapshot(Base):
     __tablename__ = "portfolio_snapshot"
     __table_args__ = (
-        Index(
-            "ix_portfolio_snapshot_date_live",
-            "date",
-            unique=True,
-            postgresql_where="is_backtest = FALSE",
-        ),
+        UniqueConstraint("date", name="uq_portfolio_snapshot_date"),
     )
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -62,8 +55,6 @@ class PortfolioSnapshot(Base):
     daily_pnl: Mapped[Decimal] = mapped_column(Numeric(12, 4), nullable=False)
     cumulative_pnl_pct: Mapped[Decimal] = mapped_column(Numeric(8, 4), nullable=False)
     num_positions: Mapped[int] = mapped_column(Integer, nullable=False)
-    is_backtest: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false", nullable=False)
-    backtest_run_id: Mapped[UUID | None] = mapped_column(nullable=True)
 
     # Relationships
     position_snapshots: Mapped[list[PositionSnapshot]] = relationship(

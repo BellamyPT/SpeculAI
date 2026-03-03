@@ -24,7 +24,6 @@ async def list_decisions(
     min_confidence: float | None = Query(None, ge=0.0, le=1.0),
     start_date: date | None = Query(None),
     end_date: date | None = Query(None),
-    include_backtest: bool = Query(False),
     limit: int = Query(50, ge=1, le=200),
     offset: int = Query(0, ge=0),
 ) -> PaginatedResponse[DecisionReportResponse]:
@@ -36,7 +35,6 @@ async def list_decisions(
         min_confidence=min_confidence,
         start_date=start_date,
         end_date=end_date,
-        include_backtest=include_backtest,
         limit=limit,
         offset=offset,
     )

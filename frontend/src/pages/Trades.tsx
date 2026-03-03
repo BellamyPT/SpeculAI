@@ -199,9 +199,6 @@ export function Trades() {
                       <span className="text-sm font-semibold font-mono text-white">
                         {trade.ticker ?? `#${trade.stock_id}`}
                       </span>
-                      {trade.is_backtest && (
-                        <span className="ml-1.5 text-xs text-gray-500 font-mono">[BT]</span>
-                      )}
                     </td>
                     <td className="px-4 py-3">
                       <ActionBadge action={trade.side} size="sm" />

@@ -15,8 +15,6 @@ import { Dashboard } from '@/pages/Dashboard'
 import { Trades } from '@/pages/Trades'
 import { Decisions } from '@/pages/Decisions'
 import { DecisionDetail } from '@/pages/DecisionDetail'
-import { Backtest } from '@/pages/Backtest'
-
 export function App() {
   return (
     <div
@@ -33,7 +31,6 @@ export function App() {
           <Route path="/trades" element={<Trades />} />
           <Route path="/decisions" element={<Decisions />} />
           <Route path="/decisions/:id" element={<DecisionDetail />} />
-          <Route path="/backtest" element={<Backtest />} />
           {/* Catch-all redirect */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

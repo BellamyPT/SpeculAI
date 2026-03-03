@@ -29,8 +29,6 @@ class TradeRepository:
         decision_report_id: int | None = None,
         broker_order_id: str | None = None,
         executed_at: datetime | None = None,
-        is_backtest: bool = False,
-        backtest_run_id: object | None = None,
     ) -> Trade:
         try:
             trade = Trade(
@@ -44,8 +42,6 @@ class TradeRepository:
                 decision_report_id=decision_report_id,
                 broker_order_id=broker_order_id,
                 executed_at=executed_at,
-                is_backtest=is_backtest,
-                backtest_run_id=backtest_run_id,
             )
             session.add(trade)
             await session.flush()
@@ -95,7 +91,6 @@ class TradeRepository:
         side: str | None = None,
         start_date: date | None = None,
         end_date: date | None = None,
-        include_backtest: bool = False,
         limit: int = 50,
         offset: int = 0,
     ) -> tuple[list[Trade], int]:
@@ -106,7 +101,6 @@ class TradeRepository:
                 side=side,
                 start_date=start_date,
                 end_date=end_date,
-                include_backtest=include_backtest,
             )
 
             base = select(Trade).join(Trade.stock)
@@ -148,13 +142,10 @@ class TradeRepository:
         session: AsyncSession,
         stock_id: int,
         *,
-        include_backtest: bool = False,
         limit: int | None = None,
     ) -> list[Trade]:
         try:
             q = select(Trade).where(Trade.stock_id == stock_id)
-            if not include_backtest:
-                q = q.where(Trade.is_backtest.is_(False))
             q = q.order_by(Trade.created_at.desc())
             if limit is not None:
                 q = q.limit(limit)
@@ -174,12 +165,9 @@ class TradeRepository:
         side: str | None,
         start_date: date | None,
         end_date: date | None,
-        include_backtest: bool,
     ) -> list:
         """Build a list of WHERE clause conditions for trade history."""
         filters = []
-        if not include_backtest:
-            filters.append(Trade.is_backtest.is_(False))
         if ticker is not None:
             filters.append(Stock.ticker == ticker)
         if side is not None:

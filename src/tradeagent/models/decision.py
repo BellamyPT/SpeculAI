@@ -5,7 +5,7 @@ from decimal import Decimal
 from typing import Any
 from uuid import UUID
 
-from sqlalchemy import Boolean, CheckConstraint, ForeignKey, Numeric, String, Text
+from sqlalchemy import CheckConstraint, ForeignKey, Numeric, String, Text
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -34,8 +34,6 @@ class DecisionReport(TimestampMixin, Base):
     outcome_pnl: Mapped[Decimal | None] = mapped_column(Numeric(12, 4), nullable=True)
     outcome_benchmark_delta: Mapped[Decimal | None] = mapped_column(Numeric(8, 4), nullable=True)
     outcome_assessed_at: Mapped[datetime | None] = mapped_column(nullable=True)
-    is_backtest: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false", nullable=False)
-    backtest_run_id: Mapped[UUID | None] = mapped_column(nullable=True)
 
     # Relationships
     stock: Mapped["Stock"] = relationship(lazy="selectin")  # noqa: F821

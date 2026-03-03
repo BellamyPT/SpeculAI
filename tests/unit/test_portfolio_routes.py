@@ -91,8 +91,6 @@ def _make_mock_snapshot(
     snap.daily_pnl = Decimal(daily_pnl)
     snap.cumulative_pnl_pct = Decimal(cumulative_pnl_pct)
     snap.num_positions = num_positions
-    snap.is_backtest = False
-    snap.backtest_run_id = None
     return snap
 
 

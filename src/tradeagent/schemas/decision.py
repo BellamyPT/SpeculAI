@@ -30,8 +30,6 @@ class DecisionReportResponse(BaseModel):
     action: str
     confidence: Decimal
     reasoning: str
-    is_backtest: bool
-    backtest_run_id: UUID | None
     created_at: datetime
 
 
@@ -51,7 +49,5 @@ class DecisionReportDetailResponse(BaseModel):
     outcome_pnl: Decimal | None
     outcome_benchmark_delta: Decimal | None
     outcome_assessed_at: datetime | None
-    is_backtest: bool
-    backtest_run_id: UUID | None
     created_at: datetime
     context_items: list[DecisionContextItemResponse] = []

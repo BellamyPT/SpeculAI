@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from datetime import date, datetime
 from decimal import Decimal
-from uuid import UUID
 
 from pydantic import BaseModel
 
@@ -47,8 +46,6 @@ class PortfolioSnapshotResponse(BaseModel):
     daily_pnl: Decimal
     cumulative_pnl_pct: Decimal
     num_positions: int
-    is_backtest: bool
-    backtest_run_id: UUID | None
 
 
 class PortfolioSummaryResponse(BaseModel):

@@ -117,8 +117,6 @@ class MemoryService:
     async def assess_outcomes(
         self,
         session: AsyncSession,
-        *,
-        is_backtest: bool = False,
     ) -> int:
         """Assess unassessed decisions older than lookback_days.
 
@@ -133,7 +131,7 @@ class MemoryService:
 
         try:
             reports = await DecisionRepository.get_unassessed(
-                session, cutoff, is_backtest=is_backtest
+                session, cutoff
             )
         except Exception:
             log.error("outcome_assessment_fetch_failed", exc_info=True)

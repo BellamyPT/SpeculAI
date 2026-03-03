@@ -143,11 +143,6 @@ export function DecisionDetail() {
                 {data.ticker ?? `Stock #${data.stock_id}`}
               </h1>
               <ActionBadge action={data.action} size="lg" />
-              {data.is_backtest && (
-                <span className="text-xs font-mono text-yellow-500 bg-yellow-500/10 border border-yellow-500/30 px-2 py-1 rounded">
-                  BACKTEST
-                </span>
-              )}
             </div>
             <span className="text-xs font-mono text-gray-500 flex-shrink-0 mt-1">
               Report #{data.id}

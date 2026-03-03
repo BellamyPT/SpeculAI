@@ -175,9 +175,6 @@ export function Decisions() {
                     {decision.ticker ?? `#${decision.stock_id}`}
                   </span>
                   <ActionBadge action={decision.action} />
-                  {decision.is_backtest && (
-                    <span className="text-xs text-gray-500 font-mono flex-shrink-0">[BT]</span>
-                  )}
                 </div>
                 <span className="text-xs text-gray-500 font-mono flex-shrink-0">
                   #{decision.id}

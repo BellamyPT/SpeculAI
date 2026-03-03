@@ -72,8 +72,6 @@ def _make_mock_trade(
     trade.broker_order_id = f"broker-{trade_id}"
     trade.status = "FILLED"
     trade.executed_at = datetime(2024, 1, 15, 10, 30, 0, tzinfo=timezone.utc)
-    trade.is_backtest = False
-    trade.backtest_run_id = None
     trade.decision_report_id = None
     trade.created_at = datetime(2024, 1, 15, 10, 30, 0, tzinfo=timezone.utc)
     trade.stock = MagicMock()

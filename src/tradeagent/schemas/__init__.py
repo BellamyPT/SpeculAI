@@ -1,8 +1,3 @@
-from tradeagent.schemas.backtest import (
-    BacktestMetricsResponse,
-    BacktestProgressResponse,
-    BacktestTriggerRequest,
-)
 from tradeagent.schemas.benchmark import BenchmarkPriceResponse, BenchmarkResponse
 from tradeagent.schemas.common import ErrorResponse, PaginatedResponse, PaginationMeta
 from tradeagent.schemas.decision import (
@@ -27,9 +22,6 @@ from tradeagent.schemas.stock import StockFundamentalResponse, StockPriceRespons
 from tradeagent.schemas.trade import TradeResponse
 
 __all__ = [
-    "BacktestMetricsResponse",
-    "BacktestProgressResponse",
-    "BacktestTriggerRequest",
     "BenchmarkPriceResponse",
     "BenchmarkResponse",
     "BenchmarkSeries",

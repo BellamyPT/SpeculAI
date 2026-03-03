@@ -69,8 +69,6 @@ def _make_mock_report(
     report.news_summary = {"candidate_score": 0.75}
     report.memory_references = None
     report.portfolio_state = {"total_value": "50000", "cash_available": "48000"}
-    report.is_backtest = False
-    report.backtest_run_id = None
     report.created_at = datetime(2024, 1, 15, 9, 0, 0, tzinfo=timezone.utc)
     report.outcome_pnl = None
     report.outcome_benchmark_delta = None

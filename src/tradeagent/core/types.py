@@ -31,13 +31,6 @@ class PipelineStatus(StrEnum):
     FAILED = "FAILED"
 
 
-class BacktestStatus(StrEnum):
-    PENDING = "PENDING"
-    RUNNING = "RUNNING"
-    COMPLETED = "COMPLETED"
-    FAILED = "FAILED"
-
-
 class ContextType(StrEnum):
     NEWS = "news"
     TECHNICAL = "technical"

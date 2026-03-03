@@ -80,7 +80,6 @@ class TradeFactory(factory.Factory):
     currency = "USD"
     status = "FILLED"
     executed_at = factory.LazyFunction(lambda: datetime.now(tz=timezone.utc))
-    is_backtest = False
 
 
 class DecisionReportFactory(factory.Factory):
@@ -95,7 +94,6 @@ class DecisionReportFactory(factory.Factory):
     technical_summary = factory.LazyFunction(lambda: {"rsi": 45.0, "macd": {"direction": "bullish"}})
     news_summary = factory.LazyFunction(dict)
     portfolio_state = factory.LazyFunction(lambda: {"total_value": "50000", "cash_available": "40000"})
-    is_backtest = False
 
 
 class DecisionContextItemFactory(factory.Factory):
@@ -119,7 +117,6 @@ class PortfolioSnapshotFactory(factory.Factory):
     daily_pnl = Decimal("150.0000")
     cumulative_pnl_pct = Decimal("0.3000")
     num_positions = 2
-    is_backtest = False
 
 
 class PositionSnapshotFactory(factory.Factory):

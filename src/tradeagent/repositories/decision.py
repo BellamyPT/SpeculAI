@@ -28,8 +28,6 @@ class DecisionRepository:
         news_summary: dict,
         portfolio_state: dict,
         memory_references: dict | None = None,
-        is_backtest: bool = False,
-        backtest_run_id: object | None = None,
     ) -> DecisionReport:
         try:
             report = DecisionReport(
@@ -42,8 +40,6 @@ class DecisionRepository:
                 news_summary=news_summary,
                 portfolio_state=portfolio_state,
                 memory_references=memory_references,
-                is_backtest=is_backtest,
-                backtest_run_id=backtest_run_id,
             )
             session.add(report)
             await session.flush()
@@ -76,7 +72,6 @@ class DecisionRepository:
         min_confidence: float | None = None,
         start_date: date | None = None,
         end_date: date | None = None,
-        include_backtest: bool = False,
         limit: int = 50,
         offset: int = 0,
     ) -> tuple[list[DecisionReport], int]:
@@ -88,7 +83,6 @@ class DecisionRepository:
                 min_confidence=min_confidence,
                 start_date=start_date,
                 end_date=end_date,
-                include_backtest=include_backtest,
             )
 
             base = select(DecisionReport).join(DecisionReport.stock)
@@ -139,7 +133,6 @@ class DecisionRepository:
         session: AsyncSession,
         older_than: datetime,
         *,
-        is_backtest: bool = False,
         limit: int | None = None,
     ) -> list[DecisionReport]:
         try:
@@ -147,7 +140,6 @@ class DecisionRepository:
                 select(DecisionReport)
                 .where(
                     DecisionReport.outcome_assessed_at.is_(None),
-                    DecisionReport.is_backtest == is_backtest,
                     DecisionReport.created_at <= older_than,
                 )
                 .order_by(DecisionReport.created_at)
@@ -207,7 +199,6 @@ class DecisionRepository:
         stock_id: int,
         *,
         limit: int = 10,
-        is_backtest: bool = False,
     ) -> list[DecisionReport]:
         """Get recent decisions for a specific stock (memory by ticker)."""
         try:
@@ -215,7 +206,6 @@ class DecisionRepository:
                 select(DecisionReport)
                 .where(
                     DecisionReport.stock_id == stock_id,
-                    DecisionReport.is_backtest == is_backtest,
                 )
                 .order_by(DecisionReport.created_at.desc())
                 .limit(limit)
@@ -233,7 +223,6 @@ class DecisionRepository:
         *,
         exclude_stock_id: int | None = None,
         limit: int = 5,
-        is_backtest: bool = False,
     ) -> list[DecisionReport]:
         """Get top decisions by sector, ordered by outcome P&L (memory by sector)."""
         try:
@@ -242,7 +231,6 @@ class DecisionRepository:
                 .join(Stock, DecisionReport.stock_id == Stock.id)
                 .where(
                     Stock.sector == sector,
-                    DecisionReport.is_backtest == is_backtest,
                 )
             )
             if exclude_stock_id is not None:
@@ -266,7 +254,6 @@ class DecisionRepository:
         rsi_value: float,
         rsi_tolerance: float = 10.0,
         macd_direction: str | None = None,
-        is_backtest: bool = False,
         limit: int = 5,
     ) -> list[DecisionReport]:
         """Get decisions with similar technical signals (JSONB extraction).
@@ -284,7 +271,6 @@ class DecisionRepository:
             q = (
                 select(DecisionReport)
                 .where(
-                    DecisionReport.is_backtest == is_backtest,
                     rsi_col.isnot(None),
                     rsi_col >= rsi_low,
                     rsi_col <= rsi_high,
@@ -315,12 +301,9 @@ class DecisionRepository:
         min_confidence: float | None,
         start_date: date | None,
         end_date: date | None,
-        include_backtest: bool,
     ) -> list:
         """Build WHERE clause conditions for decision report listing."""
         filters = []
-        if not include_backtest:
-            filters.append(DecisionReport.is_backtest.is_(False))
         if ticker is not None:
             filters.append(Stock.ticker == ticker)
         if action is not None:
